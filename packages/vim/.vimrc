@@ -8,7 +8,7 @@ set mouse=a            " Enable mouse usage (all modes) in terminals
 set mousehide          " Hide mouse after chars typed
 set encoding=utf-8     " you really should be using utf-8 now
 set termencoding=utf-8 " ditto
-set clipboard+=unnamed " Yanks go on clipboard instead.
+set clipboard+=unnamedplus " Yanks go on clipboard instead.
 set history=10000      " Number of things to remember in history.
 set timeoutlen=250     " Time to wait after ESC (default causes an annoying delay)
 set laststatus=2       " Always show status line.
@@ -45,6 +45,9 @@ set shiftround    " Round indent to multiple of 'shiftwidth'
 set wrap
 set sidescroll=5
 "set listchars+=precedes:<,extends:>
+
+" Scroll
+set scrolloff=8 " Scrolling keeps 8 lines at top/bottom
 
 " Filetype and Synatx Highlighting
 filetype on          " Automatically detect file types
@@ -109,6 +112,7 @@ set cscopequickfix=a-,s-,c-,d-,i-,t-,e-
 "set cscopetag
 "Alternately use C-\ for :cstag and keep C-] for :tag
 map <C-\> <Esc>:cstag <C-r><C-W><CR>
+map <C-w><C-\> :split<CR>:exec("cstag ".expand("<cword>"))<CR>
 
 " Dictionary for keyword i_C-X_C-K completion
 set dictionary=/usr/share/dict/words
@@ -139,7 +143,7 @@ let html_use_css=1
 let use_xhtml=1
 
 " Quickfix Window
-map <F6> <esc>:cf<cr><esc>:copen<cr><esc><C-w>J<esc>:cf<cr>
+map <F6> <esc>:silent! cf<cr><esc>:copen<cr><esc><C-w>J<esc>:cf<cr>
 map cn <esc>:cn<cr>
 map cp <esc>:cp<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -280,11 +284,17 @@ autocmd FileType  c,cpp,h,hpp,cxx   setlocal cc=81 | setlocal shiftwidth=2 | set
 autocmd FileType  python            setlocal cc=81 | set noic
 autocmd FileType  conque_term       setlocal nolist
 
+" markdown related
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
+
+
 let g:jedi#force_py_version = 3
 let g:neocomplete#enable_at_startup = 1
 
 nmap <Leader>z <Plug>(easymotion-sn)
 nmap <Leader>t <Plug>(easymotion-next)
 nmap <Leader>T <Plug>(easymotion-prev)
+nmap <Leader><C-]> :TagbarToggle<CR>
 
 
