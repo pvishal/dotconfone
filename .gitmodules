@@ -54,3 +54,6 @@
 [submodule "packages/nvim/bundle/deoplete-jedi"]
 	path = packages/nvim/bundle/deoplete-jedi
 	url = https://github.com/zchee/deoplete-jedi.git
+[submodule "packages/nvim/bundle/deoplete-clang"]
+	path = packages/nvim/bundle/deoplete-clang
+	url = https://github.com/zchee/deoplete-clang.git

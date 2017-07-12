@@ -3,8 +3,11 @@
 sudo dpkg --add-architecture i386
 sudo add-apt-repository -y ppa:byobu/ppa
 sudo add-apt-repository -y ppa:jonathonf/vim
+sudo add-apt-repository -y ppa:neovim-ppa/unstable
 
 if [ $1 == "install" ]; then
+    sudo -E apt-get install -y python3 python3-dev python3-pip
+    sudo -E apt-get install -y python python-dev python-pip
     sudo -E apt-get install -y libc6:i386 libncurses5:i386 libstdc++6:i386
     sudo -E apt-get install -y openjdk-8-jre:i386 libxmu6:i386 libpangoxft-1.0-0:i386 libpangox-1.0-0:i386 libxv1:i386
     sudo -E apt-get install -y icedtea-8-plugin
@@ -22,4 +25,14 @@ if [ $1 == "install" ]; then
     sudo -E apt-get install -y tree htop tilda screen terminator
     sudo -E apt-get install -y ssh sshfs
     sudo -E apt-get install -y byobu tmux
+
+    # Neovim
+    sudo -E apt-get install -y neovim python3-nose clang
+
+    # Python stuff
+    sudo -H pip2 install --upgrade pip
+    sudo -H pip3 install --upgrade pip
+
+    sudo -H pip2 install --upgrade virtualenv neovim
+    sudo -H pip3 install --upgrade virtualenv neovim
 fi
