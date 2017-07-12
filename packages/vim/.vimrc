@@ -288,9 +288,12 @@ autocmd FileType  conque_term       setlocal nolist
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
 
-
-let g:jedi#force_py_version = 3
-let g:neocomplete#enable_at_startup = 1
+if has('nvim')
+    let g:deoplete#enable_at_startup = 1
+else
+    let g:jedi#force_py_version = 3
+    let g:neocomplete#enable_at_startup = 1
+endif
 
 nmap <Leader>z <Plug>(easymotion-sn)
 nmap <Leader>t <Plug>(easymotion-next)

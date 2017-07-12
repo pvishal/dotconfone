@@ -48,3 +48,9 @@
 [submodule "packages/vim/.vim/bundle/tagbar"]
 	path = packages/vim/.vim/bundle/tagbar
 	url = https://github.com/majutsushi/tagbar.git
+[submodule "packages/nvim/bundle/deoplete.nvim"]
+	path = packages/nvim/bundle/deoplete.nvim
+	url = https://github.com/Shougo/deoplete.nvim.git
+[submodule "packages/nvim/bundle/deoplete-jedi"]
+	path = packages/nvim/bundle/deoplete-jedi
+	url = https://github.com/zchee/deoplete-jedi.git

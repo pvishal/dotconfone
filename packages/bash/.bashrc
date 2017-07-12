@@ -4,6 +4,8 @@
 
 # The AWESOME vi-mode
 set -o vi
+bind -m vi-insert "\C-l":clear-screen
+bind -m vi-command "\C-l":clear-screen
 
 # If not running interactively, don't do anything
 case $- in
