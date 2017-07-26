@@ -132,6 +132,7 @@ source ~/.bash_aliases
 ## No duplicates in the history
 export HISTCONTROL=ignoredups
 export HISTSIZE=100000
+export HISTFILESIZE=100000
 ## Timestamp history
 export HISTTIMEFORMAT="%b %d %a %T "
 ## Don't Overwrite. Append to bash history.
@@ -139,7 +140,7 @@ shopt -s histappend
 export PYTHONSTARTUP=~/.pythonrc
 
 function rm() {
-  command rm $@ -I
+  command rm "$@" -I
 }
 
 function finf() {
