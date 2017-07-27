@@ -282,7 +282,7 @@ imap <C-Right> <esc>ea
 imap <C-Left> <esc>bi
 
 autocmd FileType  c,cpp,h,hpp,cxx   setlocal cc=81 | setlocal shiftwidth=2 | setlocal tabstop=2 | setlocal softtabstop=2 | set noic
-autocmd FileType  python            setlocal cc=81 | set noic
+autocmd FileType  python            setlocal cc=81
 autocmd FileType  conque_term       setlocal nolist
 
 " markdown related
@@ -303,4 +303,7 @@ nmap <Leader>t <Plug>(easymotion-next)
 nmap <Leader>T <Plug>(easymotion-prev)
 nmap <Leader><C-]> :TagbarToggle<CR>
 
+" Set errorformat for Python - comment this out if you are wokring on C/C++
+" and use 'quickfix'
+set errorformat=#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#
 
