@@ -113,7 +113,7 @@ bindsym Control+Next       workspace next
 bindsym Control+Prior      workspace prev
 bindsym $mod+Home          workspace back_and_forth
 bindsym $mod+End           workspace back_and_forth
-bindsym $mod+Control+Up exec python3 ~/.config/i3/move_all.py
+bindsym $mod+Control+Up exec python3 /usr/bin/i3_move_all.py
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1
@@ -132,7 +132,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'nohup killall i3-nagbar && i3session save && i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -176,12 +176,16 @@ bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute   `pactl l
 bindsym XF86AudioMicMute     exec --no-startup-id pactl set-sink-volume `pactl list sinks |grep "RUNNING" -B1 |grep "^Sink" |awk -F# '{print $NF}'` 100%
 
 # Move windows across workspaces
-bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+Shift+minus sticky enable; move scratchpad
 bindsym $mod+minus scratchpad show
 
 # Screen brightness controls
-bindsym XF86MonBrightnessUp   exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+# bindsym XF86MonBrightnessUp   exec xbacklight -inc 20 # increase screen brightness
+# bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+
+# For 17.04 and above use https://github.com/haikarainen/light.git
+bindsym XF86MonBrightnessUp   exec light -A 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec light -U 20 # decrease screen brightness
 
 # Lock screen
 bindsym $mod+l exec i3lock -c 333333 -i `grep -o "/.*png" ~/.fehbg` && exec xset dpms force off
@@ -200,6 +204,11 @@ bar {
 
 for_window [class="^.*"] border pixel 1
 for_window [class=".*alculator.*"] floating enable
+
+for_window [title="Netflix|.* - mpv"] move scratchpad
+for_window [title="Netflix|.* - mpv"] sticky enable
+for_window [title="Netflix|.* - mpv"] move absolute position center
+for_window [title="Netflix|.* - mpv"] resize set 1280 720
 
 client.focused #FF0000 #FF0000 #FFFFFF #0000FF
 

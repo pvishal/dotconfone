@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import i3
 from subprocess import call
@@ -16,5 +16,5 @@ i3.command('workspace', cur_wks)
 for w in i3.get_workspaces():
     if w['focused']:
         output = w['output']
-        call(["xrandr", "--output", output, "--primary"])
+        call(" ".join(["xrandr", "--output", output, "--primary"]), shell=True)
         break
