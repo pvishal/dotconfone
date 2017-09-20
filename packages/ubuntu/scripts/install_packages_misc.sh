@@ -35,4 +35,7 @@ if [ $1 == "install" ]; then
 
     sudo -H pip2 install --upgrade virtualenv neovim
     sudo -H pip3 install --upgrade virtualenv neovim
+
+    sudo -H pip2 install --upgrade ipython
+    sudo -H pip3 install --upgrade ipython
 fi
