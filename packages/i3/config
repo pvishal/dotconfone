@@ -184,11 +184,11 @@ bindsym $mod+minus scratchpad show
 # bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
 
 # For 17.04 and above use https://github.com/haikarainen/light.git
-bindsym XF86MonBrightnessUp   exec light -A 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec light -U 20 # decrease screen brightness
+bindsym XF86MonBrightnessUp   exec light -A 5 # increase screen brightness
+bindsym XF86MonBrightnessDown exec light -U 5 # decrease screen brightness
 
 # Lock screen
-bindsym $mod+l exec i3lock -c 333333 -i `grep -o "/.*png" ~/.fehbg` && exec xset dpms force off
+bindsym $mod+l exec i3lock -c 333333 -t -i `grep -o "/.*png" ~/.fehbg` && exec xset dpms force off
 exec_always --no-startup-id xautolock -time 15 -locker 'i3lock -i `grep -o \"\/.*png\" ~/.fehbg` -c 333333 ; xset dpms force off'
 
 # Start i3bar to display a workspace bar (plus the system information i3status
@@ -214,7 +214,7 @@ client.focused #FF0000 #FF0000 #FFFFFF #0000FF
 
 # Enable compton to avoid screen tearing, opacity rule is just for reference
 # Test using https://www.youtube.com/watch?v=0RvIbVmCOxg
-exec --no-startup-id compton --opacity-rule '99:window_type = "dock" && class_g = "i3bar"' -CGb --vsync=opengl-swc --backend=glx
+exec_always --no-startup-id compton --opacity-rule '99:window_type = "dock" && class_g = "i3bar"' -CGb --vsync=opengl-swc --backend=glx
 # Start pulseaudio
 exec --no-startup-id start-pulseaudio-x11
 exec --no-startup-id mate-volume-control-applet
