@@ -38,4 +38,8 @@ if [ $1 == "install" ]; then
 
     sudo -H pip2 install --upgrade ipython
     sudo -H pip3 install --upgrade ipython
+
+    sudo -H update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
+    sudo -H update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
+    sudo -H update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
 fi
