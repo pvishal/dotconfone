@@ -24,6 +24,7 @@ if [ $1 == "install" ]; then
     sudo -E apt-get install -y curl corkscrew
     sudo -E apt-get install -y tree htop tilda screen terminator
     sudo -E apt-get install -y ssh sshfs
+    sudo -E apt-get remove  -y byobu tmux
     sudo -E apt-get install -y byobu tmux
 
     # Neovim
