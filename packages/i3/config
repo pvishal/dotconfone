@@ -214,7 +214,7 @@ client.focused #FF0000 #FF0000 #FFFFFF #0000FF
 
 # Enable compton to avoid screen tearing, opacity rule is just for reference
 # Test using https://www.youtube.com/watch?v=0RvIbVmCOxg
-exec_always --no-startup-id compton --opacity-rule '99:window_type = "dock" && class_g = "i3bar"' -CGb --vsync=opengl-swc --backend=glx
+exec_always --no-startup-id compton --opacity-rule '99:window_type = "dock" && class_g = "i3bar"' -CGb --vsync=opengl-swc --backend=glx -d :0
 # Start pulseaudio
 exec --no-startup-id start-pulseaudio-x11
 exec --no-startup-id mate-volume-control-applet
