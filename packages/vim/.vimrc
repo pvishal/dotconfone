@@ -89,7 +89,10 @@ if has('gui_running')
 endif
 
 " Completely turn of blinking
-:set guicursor+=a:blinkon0
+" :set guicursor+=a:blinkon0
+" If not unset, this causes random characters to be displayed
+" on tmux
+:set guicursor=
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
