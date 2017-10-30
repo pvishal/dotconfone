@@ -93,6 +93,7 @@ endif
 " If not unset, this causes random characters to be displayed
 " on tmux
 :set guicursor=
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -297,7 +298,7 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
 
 if has('nvim')
-    let g:deoplete#sources#clang#libclang_path = '/usr/lib/x86_64-linux-gnu/libclang-3.8.so.1'
+    let g:deoplete#sources#clang#libclang_path = '/usr/lib/x86_64-linux-gnu/libclang.so.1'
     let g:deoplete#sources#clang#clang_header = '/usr/include/clang'
     let g:deoplete#enable_at_startup = 1
 else
