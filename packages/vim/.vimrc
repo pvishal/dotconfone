@@ -146,8 +146,8 @@ let html_number_lines=1
 let html_use_css=1
 let use_xhtml=1
 
-" Quickfix Window
-map <F6> <esc>:silent! cf<cr><esc>:copen<cr><esc><C-w>J<esc>:cf<cr>
+" Quickfix Window - cf forces file to reload, silent skips errors
+map <F6> <esc>:silent! cf<cr><esc>:copen<cr><esc><C-w>J<esc>:silent! cf<cr>
 map cn <esc>:cn<cr>
 map cp <esc>:cp<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -159,6 +159,10 @@ map cp <esc>:cp<cr>
 :set winminheight=0
 map <C-W><C-Left> <C-W>h
 map <C-W><C-Right> <C-W>l
+
+if has('nvim')
+tnoremap <C-w> <C-\><C-n><C-w>
+endif
 
 " Zoom current window
 "map <C-z> <C-W>_
