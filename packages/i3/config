@@ -105,8 +105,8 @@ bindsym $mod+7             workspace 7
 bindsym $mod+8             workspace 8
 bindsym $mod+9             workspace 9
 bindsym $mod+0             workspace 10
-bindsym $mod+Control+Right workspace next
-bindsym $mod+Control+Left  workspace prev
+bindsym $mod+Control+Right move workspace to output right
+bindsym $mod+Control+Left  move workspace to output left
 bindsym $mod+Next          workspace next
 bindsym $mod+Prior         workspace prev
 bindsym Control+Next       workspace next
