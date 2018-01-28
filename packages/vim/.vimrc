@@ -289,9 +289,39 @@ endif
 imap <C-Right> <esc>ea
 imap <C-Left> <esc>bi
 
+
 autocmd FileType  c,cpp,h,hpp,cxx   setlocal cc=81 | setlocal shiftwidth=2 | setlocal tabstop=2 | setlocal softtabstop=2 | set noic
 autocmd FileType  python            setlocal cc=81
 autocmd FileType  conque_term       setlocal nolist
+autocmd FileType  xml               setlocal foldmethod=indent
+
+function! Vimdiff()
+    let lines = getline(0, '$')
+    let la = []
+    let lb = []
+    for line in lines
+        if line[0] == '-'
+            call add(la, line[1:])
+        elseif line[0] == '+'
+            call add(lb, line[1:])
+        else
+            call add(la, line)
+            call add(lb, line)
+        endif
+    endfor
+    "tabnew
+    botright split
+    set bt=nofile
+    vertical new
+    set bt=nofile
+    call append(0, la)
+    diffthis
+    exe "normal \<C-W>l"
+    call append(0, lb)
+    diffthis
+endfunction
+autocmd FileType diff nnoremap <silent> <leader>vd :call Vimdiff()<CR>
+
 
 " markdown related
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
@@ -301,6 +331,7 @@ if has('nvim')
     let g:deoplete#sources#clang#libclang_path = '/usr/lib/x86_64-linux-gnu/libclang.so.1'
     let g:deoplete#sources#clang#clang_header = '/usr/include/clang'
     let g:deoplete#enable_at_startup = 1
+    let g:deoplete#sources#jedi#show_docstring = 0
 else
     let g:jedi#force_py_version = 3
     let g:neocomplete#enable_at_startup = 1
@@ -314,4 +345,3 @@ nmap <Leader><C-]> :TagbarToggle<CR>
 " Set errorformat for Python - comment this out if you are wokring on C/C++
 " and use 'quickfix'
 set errorformat=#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#
-
