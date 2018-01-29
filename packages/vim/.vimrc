@@ -8,7 +8,8 @@ set mouse=a            " Enable mouse usage (all modes) in terminals
 set mousehide          " Hide mouse after chars typed
 set encoding=utf-8     " you really should be using utf-8 now
 set termencoding=utf-8 " ditto
-set clipboard+=unnamed " Yanks go on clipboard instead.
+set clipboard^=unnamed
+set clipboard^=unnamedplus " Yanks go on clipboard instead.
 set history=10000      " Number of things to remember in history.
 set timeoutlen=250     " Time to wait after ESC (default causes an annoying delay)
 set laststatus=2       " Always show status line.
@@ -45,6 +46,9 @@ set shiftround    " Round indent to multiple of 'shiftwidth'
 set wrap
 set sidescroll=5
 "set listchars+=precedes:<,extends:>
+
+" Scroll
+" set scrolloff=8 " Scrolling keeps 8 lines at top/bottom
 
 " Filetype and Synatx Highlighting
 filetype on          " Automatically detect file types
@@ -85,7 +89,11 @@ if has('gui_running')
 endif
 
 " Completely turn of blinking
-:set guicursor+=a:blinkon0
+" :set guicursor+=a:blinkon0
+" If not unset, this causes random characters to be displayed
+" on tmux
+:set guicursor=
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -109,6 +117,7 @@ set cscopequickfix=a-,s-,c-,d-,i-,t-,e-
 "set cscopetag
 "Alternately use C-\ for :cstag and keep C-] for :tag
 map <C-\> <Esc>:cstag <C-r><C-W><CR>
+map <C-w><C-\> :split<CR>:exec("cstag ".expand("<cword>"))<CR>
 
 " Dictionary for keyword i_C-X_C-K completion
 set dictionary=/usr/share/dict/words
@@ -138,8 +147,8 @@ let html_number_lines=1
 let html_use_css=1
 let use_xhtml=1
 
-" Quickfix Window
-map <F6> <esc>:cf<cr><esc>:copen<cr><esc><C-w>J<esc>:cf<cr>
+" Quickfix Window - cf forces file to reload, silent skips errors
+" map <F6> <esc>:silent! cf<cr><esc>:copen<cr><esc><C-w>J<esc>:silent! cf<cr>
 map cn <esc>:cn<cr>
 map cp <esc>:cp<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -151,6 +160,10 @@ map cp <esc>:cp<cr>
 :set winminheight=0
 map <C-W><C-Left> <C-W>h
 map <C-W><C-Right> <C-W>l
+
+if has('nvim')
+tnoremap <C-w> <C-\><C-n><C-w>
+endif
 
 " Zoom current window
 "map <C-z> <C-W>_
@@ -257,15 +270,23 @@ endif
 
 " Moderately stern feedback for tabs, ignorant for trailing whitespaces
 "set listchars=tab:➝\ ,space:·,trail:·
+"set listchars=tab:»\ ,nbsp:\ ,trail:»
 
 " Less intrusive display of non-printable chars (for other's code you can't
 " change, for example, some kernel code) ;-(
 set listchars=tab:·\ ,space:\ ,trail:➝
 
+
 " Most modern terminals now use this formatting and show colors in HD
+" Hack for color consistency
+" if $COLORTERM == 'gnome-terminal' || $COLORTERM == 'mate-terminal'
 set t_Co=256
+" endif
 
 colorscheme noblesse_redux
+if has('gui_running')
+    colorscheme noblesse_redux
+endif
 "colorscheme csg
 "colorscheme candycode
 "colorscheme asu1dark
@@ -278,15 +299,57 @@ imap <C-Right> <esc>ea
 imap <C-Left> <esc>bi
 
 autocmd FileType  c,cpp,h,hpp,cxx   setlocal cc=81 | setlocal shiftwidth=2 | setlocal tabstop=2 | setlocal softtabstop=2 | set noic
-autocmd FileType  python            setlocal cc=81 | set noic
+autocmd FileType  python            setlocal cc=81
 autocmd FileType  conque_term       setlocal nolist
+autocmd FileType  xml               setlocal foldmethod=indent
 
-let g:jedi#force_py_version = 3
-let g:neocomplete#enable_at_startup = 1
+function! Vimdiff()
+    let lines = getline(0, '$')
+    let la = []
+    let lb = []
+    for line in lines
+        if line[0] == '-'
+            call add(la, line[1:])
+        elseif line[0] == '+'
+            call add(lb, line[1:])
+        else
+            call add(la, line)
+            call add(lb, line)
+        endif
+    endfor
+    "tabnew
+    botright split
+    set bt=nofile
+    vertical new
+    set bt=nofile
+    call append(0, la)
+    diffthis
+    exe "normal \<C-W>l"
+    call append(0, lb)
+    diffthis
+endfunction
+autocmd FileType diff nnoremap <silent> <leader>vd :call Vimdiff()<CR>
+
+
+" markdown related
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
+
+if has('nvim')
+    let g:deoplete#sources#clang#libclang_path = '/usr/lib/x86_64-linux-gnu/libclang.so.1'
+    let g:deoplete#sources#clang#clang_header = '/usr/include/clang'
+    let g:deoplete#enable_at_startup = 1
+    let g:deoplete#sources#jedi#show_docstring = 0
+else
+    let g:jedi#force_py_version = 3
+    let g:neocomplete#enable_at_startup = 1
+endif
 
 nmap <Leader>z <Plug>(easymotion-sn)
 nmap <Leader>t <Plug>(easymotion-next)
 nmap <Leader>T <Plug>(easymotion-prev)
 nmap <Leader><C-]> :TagbarToggle<CR>
 
-
+" Set errorformat for Python - comment this out if you are wokring on C/C++
+" and use 'quickfix'
+set errorformat=#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#
