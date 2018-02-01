@@ -109,7 +109,7 @@ endif
 let cscope_file=$HOME."/cscope.out"
 if file_readable(cscope_file)
   cs reset
-  cs add ~/cscope.out
+  silent! cs add ~/cscope.out
 endif
 set tags=~/tags
 set cscopequickfix=a-,s-,c-,d-,i-,t-,e-
