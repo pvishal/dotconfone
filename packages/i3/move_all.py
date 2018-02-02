@@ -15,6 +15,7 @@ i3.command('workspace', cur_wks)
 
 for w in i3.get_workspaces():
     if w['focused']:
-        output = w['output']
-        call(" ".join(["xrandr", "--output", output, "--primary"]), shell=True)
+        cur_output = w['output']
         break
+
+call("xrandr --output {} --primary".format(cur_output), shell=True)
