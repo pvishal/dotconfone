@@ -28,14 +28,18 @@ def setup_logging(level=logging.INFO):
         handler.setFormatter(fmt=LOG_FORMATTER)
 
 
-def process(myargs, *args, **kwargs):
+def process(**kwargs):
+    xval = kwargs["xval"]
+    yval = kwargs["yval"]
+
+    print(xval)
+    print(yval)
+
     logger.debug("debug")
     logger.info("info")
     logger.warning("warning")
     logger.error("error")
     logger.critical("critical")
-
-    print(myargs.arg1, myargs.arg2)
 
     return 0
 
@@ -43,16 +47,18 @@ def process(myargs, *args, **kwargs):
 def main():
     parser = argparse.ArgumentParser(description="Generic Application")
     parser.add_argument(
-        "--arg1",
-        dest="arg1",
+        "-x",
+        "--xval",
+        dest="xval",
         choices=["opt1", "opt2"],
         type=str.lower, # Make case-insensitive
         help="Some Argument",
         required=True
     )
     parser.add_argument(
-        "--arg2",
-        dest="arg2",
+        "-y",
+        "--yval",
+        dest="yval",
         choices=[3, 4],
         help="Some Argument",
         type=int,
@@ -62,9 +68,9 @@ def main():
 
     myargs = parser.parse_args()
 
-    return process(myargs)
+    return process(**vars(myargs))
+
 
 if __name__ == '__main__':
     setup_logging(level=logging.INFO)
     sys.exit(main())
-
