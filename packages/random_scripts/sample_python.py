@@ -1,5 +1,9 @@
 #!/usr/bin/env python
+"""
+eg:
+./sample_python.py -x opt1 -y 3 -z 1 2 3
 
+"""
 from __future__ import print_function
 
 import os
@@ -31,9 +35,11 @@ def setup_logging(level=logging.INFO):
 def process(**kwargs):
     xval = kwargs["xval"]
     yval = kwargs["yval"]
+    zval = kwargs["zval"]
 
     print(xval)
     print(yval)
+    print(zval)
 
     logger.debug("debug")
     logger.info("info")
@@ -64,6 +70,15 @@ def main():
         type=int,
         default=4,
         required=True
+    )
+    parser.add_argument(
+        "-z",
+        "--zval",
+        dest="zval",
+        nargs="+",
+        help="Some Argument",
+        type=int,
+        default=[]
     )
 
     myargs = parser.parse_args()
