@@ -1,0 +1,14 @@
+{
+    "git.ignoreLegacyWarning": true,
+    "workbench.colorTheme": "Monokai",
+    "editor.fontFamily": "mononoki",
+    "terminal.integrated.fontFamily": "mononoki",
+    "editor.minimap.enabled": false,
+    "editor.renderWhitespace": "all",
+    "python.linting.pylintArgs": ["--rcfile", "${workspaceRoot}/.pylintrc"],
+    "python.workspaceSymbols.ctagsPath": "/usr/bin/ctags",
+    "python.workspaceSymbols.tagFilePath": "${workspaceRoot}/.vscode/tags",
+    "window.zoomLevel": -0.5,
+    "workbench.activityBar.visible": false,
+    "workbench.statusBar.visible": false
+}
