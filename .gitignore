@@ -4,3 +4,8 @@ __pycache__
 tags
 packages/i3/session
 packages/vim/.vim/*.sw*
+
+packages/vim/.vim/bundle/YouCompleteMe
+packages/vim/.vim/bundle/YCM-Generator
+packages/nvim/bundle/YouCompleteMe
+packages/nvim/bundle/YCM-Generator
