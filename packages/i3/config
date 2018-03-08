@@ -10,6 +10,7 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
+set $psst --no-startup-id
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -17,7 +18,7 @@ font xft:mononoki 10
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font xft:mononoki 10
+#font pango:DejaVu Sans Mono 8
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -43,29 +44,27 @@ bindsym $mod+d exec dmenu_run
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-#bindsym $mod+j         focus left
-#bindsym $mod+k         focus down
-#bindsym $mod+l         focus up
-#bindsym $mod+semicolon focus right
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Left      focus left
-bindsym $mod+Down      focus down
-bindsym $mod+Up        focus up
-bindsym $mod+Right     focus right
-bindsym Mod1+Tab       focus right
-bindsym Mod1+Shift+Tab focus left
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
 
 # move focused window
-#bindsym $mod+Shift+j         move left
-#bindsym $mod+Shift+k         move down
-#bindsym $mod+Shift+l         move up
-#bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left  move left
-bindsym $mod+Shift+Down  move down
-bindsym $mod+Shift+Up    move up
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
@@ -95,44 +94,60 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # switch to workspace
-bindsym $mod+1             workspace 1
-bindsym $mod+2             workspace 2
-bindsym $mod+3             workspace 3
-bindsym $mod+4             workspace 4
-bindsym $mod+5             workspace 5
-bindsym $mod+6             workspace 6
-bindsym $mod+7             workspace 7
-bindsym $mod+8             workspace 8
-bindsym $mod+9             workspace 9
-bindsym $mod+0             workspace 10
-bindsym $mod+Control+Right move workspace to output right
-bindsym $mod+Control+Left  move workspace to output left
-bindsym $mod+Next          workspace next
-bindsym $mod+Prior         workspace prev
-bindsym Control+Next       workspace next
-bindsym Control+Prior      workspace prev
-bindsym $mod+Home          workspace back_and_forth
-bindsym $mod+End           workspace back_and_forth
-bindsym $mod+Control+Up exec python3 /usr/bin/i3_move_all.py
+
+set $ws1 "1: "
+set $ws2 "2: "
+set $ws4 "4: "
+set $ws10 "10:  "
+
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace $ws10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
 bindsym $mod+Shift+3 move container to workspace 3
-bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+4 move container to workspace $ws4
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+assign [class="Firefox"] $ws2
+assign [class="Google-chrome"] $ws2
+assign [class="Code"] $ws4
+
+for_window [class="Tk" ] floating enable
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+# bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+set $mode_system     LOCK[L]        LOGOUT[G]        SLEEP[P]        REBOOT[R]        SHUTDOWN[S]
+bindsym $mod+Shift+e mode "$mode_system"
+mode "$mode_system" {
+    bindsym l exec $psst ~/.config/i3/i3exit.sh lock, mode "default"
+    bindsym g exec $psst ~/.config/i3/i3exit.sh logout, mode "default"
+    bindsym p exec $psst ~/.config/i3/i3exit.sh suspend, mode "default"
+    bindsym r exec $psst ~/.config/i3/i3exit.sh reboot, mode "default"
+    bindsym s exec $psst ~/.config/i3/i3exit.sh poweroff, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -142,25 +157,16 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym h           resize shrink width  10 px or 1 ppt
-        bindsym j           resize grow   height 10 px or 1 ppt
-        bindsym k           resize shrink height 10 px or 1 ppt
-        bindsym l           resize grow   width  10 px or 1 ppt
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym semicolon resize grow width 10 px or 10 ppt
 
-        bindsym Shift+h     move   left          10 px
-        bindsym Shift+j     move   down          10 px
-        bindsym Shift+k     move   up            10 px
-        bindsym Shift+l     move   right         10 px
-
-        bindsym Left        resize shrink width  10 px or 1 ppt
-        bindsym Down        resize grow   height 10 px or 1 ppt
-        bindsym Up          resize shrink height 10 px or 1 ppt
-        bindsym Right       resize grow   width  10 px or 1 ppt
-
-        bindsym Shift+Left  move   left          10 px
-        bindsym Shift+Down  move   down          10 px
-        bindsym Shift+Up    move   up            10 px
-        bindsym Shift+Right move   right         10 px
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -169,61 +175,35 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume `pactl list sinks |grep "RUNNING" -B1 |grep "^Sink" |awk -F# '{print $NF}'` +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume `pactl list sinks |grep "RUNNING" -B1 |grep "^Sink" |awk -F# '{print $NF}'` -5%
-bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute   `pactl list sinks |grep "RUNNING" -B1 |grep "^Sink" |awk -F# '{print $NF}'` toggle
-bindsym XF86AudioMicMute     exec --no-startup-id pactl set-sink-volume `pactl list sinks |grep "RUNNING" -B1 |grep "^Sink" |awk -F# '{print $NF}'` 100%
-
-# Move windows across workspaces
-bindsym $mod+Shift+minus sticky enable; move scratchpad
-bindsym $mod+minus scratchpad show
-
-# Screen brightness controls
-# bindsym XF86MonBrightnessUp   exec xbacklight -inc 20 # increase screen brightness
-# bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
-
-# For 17.04 and above use https://github.com/haikarainen/light.git
-bindsym XF86MonBrightnessUp   exec light -A 5 # increase screen brightness
-bindsym XF86MonBrightnessDown exec light -U 5 # decrease screen brightness
-
-# Lock screen
-bindsym $mod+l exec i3lock -c 333333 -t -i `grep -o "/.*png" ~/.fehbg` && exec xset dpms force off
-exec_always --no-startup-id xautolock -time 15 -locker 'i3lock -i `grep -o \"\/.*png\" ~/.fehbg` -c 333333 ; xset dpms force off'
-
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+        status_command i3status --config ~/.config/i3/i3status.conf
+        #status_command i3status
         tray_output primary
-        font xft: mononoki 10px
-        #mode hide
-        modifier $mod
-        position top
 }
 
-for_window [class="^.*"] border pixel 1
-for_window [class=".*alculator.*"] floating enable
+# Desktop "rice"
+exec_always $psst feh --bg-fill ~/Pictures/wallpapers/current-wallpaper.jpg
 
-for_window [title="Netflix|.* - mpv"] move scratchpad
-for_window [title="Netflix|.* - mpv"] sticky enable
-for_window [title="Netflix|.* - mpv"] move absolute position center
-for_window [title="Netflix|.* - mpv"] resize set 1280 720
 
-client.focused #FF0000 #FF0000 #FFFFFF #0000FF
+# Multimedia keys configuration
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
-# Enable compton to avoid screen tearing, opacity rule is just for reference
-# Test using https://www.youtube.com/watch?v=0RvIbVmCOxg
-exec_always --no-startup-id compton --opacity-rule '99:window_type = "dock" && class_g = "i3bar"' -CGb --vsync=opengl-swc --backend=glx -d :0
-# Start pulseaudio
-exec --no-startup-id start-pulseaudio-x11
-exec --no-startup-id mate-volume-control-applet
-# Network/Bluetooth access
-exec --no-startup-id blueman-applet
-exec --no-startup-id nm-applet
-# Provide monitor applet, auto mounting of media
-exec --no-startup-id mate-settings-daemon
-# Set background
-exec_always --no-startup-id sh ~/.fehbg
-# Window switcher
-bindsym $mod+Tab exec rofi -show window -font "mononoki 10"
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+
+# Touchpad controls
+#bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
+
+# Media player controls
+#bindsym XF86AudioPlay exec playerctl play
+#bindsym XF86AudioPause exec playerctl pause
+#bindsym XF86AudioNext exec playerctl next
+#bindsym XF86AudioPrev exec playerctl previous
+
+exec --no-startup-id compton --config ~/.config/compton/compton.conf -CGb
